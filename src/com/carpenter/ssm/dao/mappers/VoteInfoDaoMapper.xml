@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpenter.ssm.dao.VoteInfoDaoMapper">
+	<insert id="insert" parameterType="com.carpenter.ssm.pojo.VoteInfo">
+		insert into vote_info(
+			vote_name,
+			vote_details,
+			vote_tobeVoted,
+			vote_deadline,
+			vote_initiator
+		)values(
+			#{vote_name},
+			#{vote_details},
+			#{vote_tobeVoted},
+			#{vote_deadline},
+			#{vote_initiator}
+		)		
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+		delete from vote_info where vote_id = #{vote_id}
+	</delete>
+	
+	<delete id="deleteByName" parameterType="String">
+		delete from vote_info where vote_name = #{vote_name}
+	</delete>
+	
+	<select id="selectAll" resultType="com.carpenter.ssm.pojo.VoteInfo">
+		select * from vote_info order by vote_id asc
+	</select>
+	
+	<select id="getVoteInfoById" parameterType="String" 
+			resultType="com.carpenter.ssm.pojo.VoteInfo">
+		select * from vote_info where vote_id = #{vote_id}
+	</select>
+	
+	<select id="getIdByName" parameterType="String" resultType="String">
+		select vote_id from vote_info where vote_name = #{vote_name}
+	</select>
+	
+	<update id="update" parameterType="com.carpenter.ssm.pojo.VoteInfo">
+		update vote_info 
+		<set>
+			<if test="vote_name!=null">vote_name=#{vote_name}</if>
+			<if test="vote_details!=null">vote_details=#{vote_details}</if>
+			<if test="vote_tobeVoted!=null">vote_tobeVoted=#{vote_tobeVoted}</if>
+			<if test="vote_deadline!=null">vote_deadline=#{vote_deadline}</if>
+		</set>
+		where vote_id = #{vote_id}
+	</update>
+	
+	<update id="initialize" statementType="STATEMENT">
+		alter table vote_info auto_increment=0
+	</update>
+	
+	<select id="deleteAssist" parameterType="String" statementType="CALLABLE">
+		{call after_delete_vote(#{vote_id})}
+	</select>
+</mapper>

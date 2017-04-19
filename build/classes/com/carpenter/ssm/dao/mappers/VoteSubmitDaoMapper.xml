@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpenter.ssm.dao.VoteSubmitDaoMapper">
+	<insert id="insert" parameterType="com.carpenter.ssm.pojo.VoteSubmit">
+		insert into vote_submit(
+			vote_id,
+			student_id
+		)values(
+			#{vote_id},
+			#{student_id}
+		)
+	</insert>
+	
+	<select id="selectAllById" parameterType="String"
+				resultType="com.carpenter.ssm.pojo.VoteSubmit">
+		select * from vote_submit where vote_id = #{vote_id} order by student_id asc			
+	</select>
+	
+	<select id="getVoteSubmitById" parameterType="String" 
+				resultType="com.carpenter.ssm.pojo.VoteSubmit">
+		select * from vote_submit where student_id = #{student_id} order by vote_id asc			
+	</select>
+	
+	<select id="getOnlyVoteSubmitById" parameterType="String"
+				resultType="com.carpenter.ssm.pojo.VoteSubmit">
+		select * from vote_submit where student_id = #{student_id} and vote_id = #{vote_id}			
+	</select>
+	
+	<update id="update">
+		update vote_submit set vote_choice = #{vote_choice} 
+		where student_id = #{student_id} and vote_id = #{vote_id}
+	</update>
+</mapper>

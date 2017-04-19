@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpenter.ssm.dao.HomeworkSubmitDaoMapper">
+	<insert id="insert" parameterType="com.carpenter.ssm.pojo.HomeworkSubmit">
+		insert into homework_submit(
+			homework_id,
+			student_id,
+			save_path,
+			last_updatetime
+		)values(
+			#{homework_id},
+			#{student_id},
+			#{save_path},
+			#{last_updatetime}
+		)
+	</insert>
+	
+	<select id="selectAllById" parameterType="String"
+				resultType="com.carpenter.ssm.pojo.HomeworkSubmit">
+		select * from homework_submit where homework_id = #{homework_id} order by student_id asc
+	</select>
+	
+	<select id="getHomeworkSubmitById" parameterType="String"
+				resultType="com.carpenter.ssm.pojo.HomeworkSubmit">
+		select * from homework_submit where student_id = #{student_id} order by homework_id asc		
+	</select>
+	
+	<select id="getOnlyHomeworkSubmitById" parameterType="String"
+				resultType="com.carpenter.ssm.pojo.HomeworkSubmit">
+		select * from homework_submit where student_id = #{student_id} and homework_id = #{homework_id}			
+	</select>
+	
+	<update id="updateTimeFresh">
+		update homework_submit
+		<set>
+			<if test="last_updatetime!=null">last_updatetime=#{last_updatetime}</if>
+		</set>
+		where student_id = #{student_id} and homework_id = #{homework_id}
+	</update>
+</mapper>

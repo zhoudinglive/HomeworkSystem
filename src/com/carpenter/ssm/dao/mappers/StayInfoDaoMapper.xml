@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpenter.ssm.dao.StayInfoDaoMapper">
+	<insert id="insert" parameterType="com.carpenter.ssm.pojo.StayInfo">
+		insert into stay_info(
+		stay_name,
+		stay_details,
+		stay_begintime,
+		stay_stoptime,
+		stay_deadline,
+		stay_initiator
+		)values(
+		#{stay_name},
+		#{stay_details},
+		#{stay_begintime},
+		#{stay_stoptime},
+		#{stay_deadline},
+		#{stay_initiator}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from stay_info where
+		stay_id = #{stay_id}
+	</delete>
+	
+	<delete id="deleteByName" parameterType="String">
+		delete from stay_info where 
+		stay_name = #{stay_name}
+	</delete>
+
+	<select id="selectAll" resultType="com.carpenter.ssm.pojo.StayInfo">
+		select * from stay_info order
+		by stay_deadline desc
+	</select>
+
+	<select id="getStayInfoById" parameterType="String"
+		resultType="com.carpenter.ssm.pojo.StayInfo">
+		select * from stay_info where stay_id = #{stay_id}
+	</select>
+	
+	<select id="getIdByName" parameterType="String" resultType="String">
+		select stay_id from stay_info where stay_name = #{stay_name}
+	</select>
+
+	<update id="update" parameterType="com.carpenter.ssm.pojo.StayInfo">
+		update stay_info
+		<set>
+			<if test="stay_name!=null">stay_name=#{stay_name},</if>
+			<if test="stay_details!=null">stay_details=#{stay_details},</if>
+			<if test="stay_begintime!=null">stay_begintime=#{stay_begintime},</if>
+			<if test="stay_stoptime!=null">stay_stoptime=#{stay_stoptime},</if>
+			<if test="stay_deadline!=null">stay_deadline=#{stay_deadline},</if>
+		</set>
+		where stay_id = #{stay_id}
+	</update>
+	
+	<update id="initialize" statementType="STATEMENT">
+		alter table stay_info auto_increment=0
+	</update>
+	
+	<select id="deleteAssist" parameterType="String" statementType="CALLABLE">
+		{call after_delete_stay(#{stay_id})}
+	</select>
+</mapper>

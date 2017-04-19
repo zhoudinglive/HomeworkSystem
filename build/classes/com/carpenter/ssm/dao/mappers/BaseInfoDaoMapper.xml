@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carpenter.ssm.dao.BaseInfoDaoMapper">
+	<insert id="insert" parameterType="com.carpenter.ssm.pojo.BaseInfo">
+		insert into base_info(base_id,
+		base_name, 
+		base_sex, 
+		base_portrait)
+		values(#{base_id}, 
+		#{base_name},
+		#{base_sex}, 
+		#{base_portrait})
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from base_info where
+		base_id = #{base_id}
+	</delete>
+
+	<select id="selectAll" resultType="com.carpenter.ssm.pojo.BaseInfo">
+		select * from base_info order
+		by base_id asc
+	</select>
+
+	<select id="getBaseInfoById" parameterType="String"
+		resultType="com.carpenter.ssm.pojo.BaseInfo">
+		select * from base_info where base_id = #{base_id}
+	</select>
+
+	<update id="update" parameterType="com.carpenter.ssm.pojo.BaseInfo">
+		update base_info
+		<set>
+			<if test="base_portrait!=null">
+				base_portrait = #{base_portrait}
+			</if>
+		</set>
+		where base_id = #{base_id}
+	</update>
+</mapper>
