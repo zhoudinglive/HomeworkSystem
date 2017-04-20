@@ -1,4 +1,4 @@
-	package com.carpenter.ssm.web.controller;
+package com.carpenter.ssm.web.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
